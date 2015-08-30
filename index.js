@@ -46,6 +46,7 @@ function setup(plugin, imports, register) {
   , github: {
       key: config.get('authGithub:key')
     , secret: config.get('authGithub:secret')
+    , scope: []
     , callback: '/login_github_callback'
     }
   })))
