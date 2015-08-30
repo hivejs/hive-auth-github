@@ -1,13 +1,13 @@
 {
   "name": "hive-auth-github",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Token authentication handler for hive.js",
   "main": "index.js",
   "dependencies": {
-    "grant-koa":"3.x"
-  , "koa-mount": "1.x"
-  , "koa-session": "3.x"
-  , "superagent": "1.x"
+    "grant-koa": "3.x",
+    "koa-mount": "1.x",
+    "koa-session": "3.x",
+    "superagent": "1.x"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -21,7 +21,9 @@
     "hive.js"
   ],
   "author": "Marcel Klehr <mklehr@gmx.net>",
-  "license": {"license": "GPL-3.0"},
+  "license": {
+    "license": "GPL-3.0"
+  },
   "bugs": {
     "url": "https://github.com/hivejs/hive-oauth/issues"
   },
