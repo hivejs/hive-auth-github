@@ -24,7 +24,7 @@ var Grant = require('grant-koa')
 
 module.exports = setup
 module.exports.consumes = ["auth", "hooks", "http", "assets", 'config', 'authToken']
-module.exports.provides = ["authToken"]
+module.exports.provides = []
 
 function setup(plugin, imports, register) {
   var auth = imports.auth
