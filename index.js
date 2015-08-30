@@ -38,9 +38,19 @@ function setup(plugin, imports, register) {
 
   http.keys = ['grant']
   http.use(session(http))
-  http.use(mount(Grant(config.get('authGithub'))))
+  http.use(mount(Grant({
+    server: {
+      protocol: 'http'
+    , host: config.get('ui:baseURL')
+    }
+  , github: {
+      key: config.get('authGithub:key')
+    , secret: config.get('authGithub:secret')
+    , callback: '/login_github_callback'
+    }
+  })))
 
-  http.router.get('/connect/github/callback', function*(next) {
+  http.router.get('/login_github_callback', function*(next) {
     if(this.query.access_token) {
       var user = yield auth.authenticate('github', this.query.access_token)
       this.cookies.set('token', authToken.sign({user: user.id}))
