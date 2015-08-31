@@ -44,7 +44,11 @@ function setup(plugin, imports, register) {
   http.use(mount(Grant({
     server: {
       protocol: 'http'
-    , host: baseURL.host+baseURL.pathname
+    , host: baseURL.host+(
+        baseURL.pathname[baseURL.pathname.length-1]=='/'?
+          baseURL.pathname.substr(0, baseURL.pathname.length-1)
+        : baseURL.pathname
+      )
     }
   , github: {
       key: config.get('authGithub:key')
