@@ -67,7 +67,7 @@ function setup(plugin, imports, register) {
         return
       }
       this.cookies.set('token', authToken.sign({user: user.id}))
-      this.redirect(this.query.raw.state)
+      this.redirect(this.cookies.get('auth-github_referer') || '/') // XXX: I don't know if '/' is the right thing here, or if we need baseURL.pathname
     }else{
       this.body = this.query
     }
