@@ -60,7 +60,11 @@ function setup(plugin, imports, register) {
 
   http.router.get('/login_github_callback', function*(next) {
     if(this.query.access_token) {
-      var user = yield auth.authenticate('github', this.query.access_token)
+      try {
+        var user = yield auth.authenticate('github', this.query.access_token)
+      }catch(e) {
+        this.body = 'Error while authentication with github: '+e.message
+      }
       this.cookies.set('token', authToken.sign({user: user.id}))
       this.redirect(this.query.raw.state)
     }else{
@@ -70,15 +74,13 @@ function setup(plugin, imports, register) {
 
   hooks.on('orm:initialized', function*(models) {
     auth.registerAuthenticationProvider('github', function*(credentials) {
-      console.log('GITHUB access_token:', credentials)
       var githubUser = yield function(cb) {
         request.get('https://api.github.com/v3/users/')
         .set('User-Agent', 'hive.js')
         .set('Authorization', 'token '+credentials)
-        .end(function(er, res, body) {
-          console.log(body)
+        .end(function(er, res) {
           if(er || res.status!==200) return cb(er || res.toError())
-          cb(null, body)
+          cb(null, res.body)
         })
       }
       // we need to copy everything we need from github in this fn,
