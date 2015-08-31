@@ -64,6 +64,7 @@ function setup(plugin, imports, register) {
         var user = yield auth.authenticate('github', this.query.access_token)
       }catch(e) {
         this.body = 'Error while authentication with github: '+e.message
+        return
       }
       this.cookies.set('token', authToken.sign({user: user.id}))
       this.redirect(this.query.raw.state)
