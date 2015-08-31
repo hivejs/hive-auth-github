@@ -70,10 +70,10 @@ function setup(plugin, imports, register) {
       var githubUser = yield function(cb) {
         request.get('https://api.github.com/v3/users/')
         .set('User-Agent', 'hive.js')
-        .set('Authorization', credentials)
+        .set('Authorization', 'token '+credentials)
         .end(function(er, res, body) {
           console.log(body)
-          if(er || res.status!==200) return cb(er.toError())
+          if(er || res.status!==200) return cb(er || res.toError())
           cb(null, body)
         })
       }
