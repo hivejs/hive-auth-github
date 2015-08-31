@@ -20,6 +20,7 @@ var Grant = require('grant-koa')
   , mount = require('koa-mount')
   , path = require('path')
   , request = require('superagent')
+  , url = require('url')
 
 
 module.exports = setup
@@ -36,12 +37,14 @@ function setup(plugin, imports, register) {
 
   assets.registerModule(path.join(__dirname, 'client.js'))
 
+  var baseURL = url.parse(config.get('ui:baseURL'))
+
   http.keys = ['grant']
   http.use(session(http))
   http.use(mount(Grant({
     server: {
       protocol: 'http'
-    , host: config.get('ui:baseURL')
+    , host: baseURL.host+baseURL.pathname
     }
   , github: {
       key: config.get('authGithub:key')
