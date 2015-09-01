@@ -13,7 +13,7 @@ function setup(plugin, imports, register) {
     }
   , ask: function*() {
       var basePath = url.parse(ui.baseURL).pathname
-      document.cookie = 'auth-github_referer='+window.location+';path="'+basePath+'"'
+      document.cookie = 'auth-github_referer='+window.location+';path='+basePath
       window.location = ui.baseURL+'/connect/github'
       yield function() { }
     }
