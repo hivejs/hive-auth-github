@@ -66,7 +66,7 @@ function setup(plugin, imports, register) {
         this.body = 'Error while authentication with github: '+e.message
         return
       }
-      this.cookies.set('token', authToken.sign({user: user.id}))
+      this.cookies.set('token', yield authToken.sign({user: user.id}), {httpOnly: false})
       this.redirect(this.cookies.get('auth-github_referer') || '/') // XXX: I don't know if '/' is the right thing here, or if we need baseURL.pathname
     }else{
       this.body = this.query
@@ -76,7 +76,7 @@ function setup(plugin, imports, register) {
   hooks.on('orm:initialized', function*(models) {
     auth.registerAuthenticationProvider('github', function*(credentials) {
       var githubUser = yield function(cb) {
-        request.get('https://api.github.com/v3/users/')
+        request.get('https://api.github.com/user')
         .set('User-Agent', 'hive.js')
         .set('Authorization', 'token '+credentials)
         .end(function(er, res) {
@@ -86,7 +86,7 @@ function setup(plugin, imports, register) {
       }
       // we need to copy everything we need from github in this fn,
       // since we don't store the access_token
-      var user = yield models.users.findOneOrCreate({type: 'github', foreignId: githubUser.id}, {type: 'github', foreignId: githubUser.id, name: githubUser.name})
+      var user = yield models.user.findOrCreate({type: 'github', foreignId: githubUser.id}, {type: 'github', foreignId: githubUser.id, name: githubUser.name})
       return user
     })
   })
