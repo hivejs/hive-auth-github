@@ -1,6 +1,6 @@
 {
   "name": "hive-auth-github",
-  "version": "0.1.0",
+  "version": "0.4.0",
   "description": "Token authentication handler for hive.js",
   "main": "index.js",
   "dependencies": {
