@@ -24,18 +24,18 @@ var Grant = require('grant-koa')
 
 
 module.exports = setup
-module.exports.consumes = ["auth", "hooks", "http", "assets", 'config', 'authToken']
+module.exports.consumes = ["auth", "hooks", "http", "ui", 'config', 'authToken']
 module.exports.provides = []
 
 function setup(plugin, imports, register) {
   var auth = imports.auth
     , authToken = imports.authToken
-    , assets = imports.assets
+    , ui = imports.ui
     , hooks = imports.hooks
     , http = imports.http
     , config = imports.config
 
-  assets.registerModule(path.join(__dirname, 'client.js'))
+  ui.registerModule(path.join(__dirname, 'client.js'))
 
   var baseURL = url.parse(config.get('ui:baseURL'))
 
